@@ -1,0 +1,227 @@
+from PyQt5 import QtCore, QtGui, QtWidgets
+from careerReporter import getCareerbyId, getCareerbyTweet
+from PyQt5.QtWidgets import QMessageBox
+
+class Ui_MainWindow(object):  #DaveWallsworth
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.setFixedSize(800, 600)                                                            ## FIXED to a particular size
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("pyqt5/resources/twitter_black_logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)   ## ICON setter using image
+        MainWindow.setWindowIcon(icon)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.bgimage = QtWidgets.QLabel(self.centralwidget)
+        self.bgimage.setGeometry(QtCore.QRect(-10, 0, 821, 561))
+        self.bgimage.setFrameShape(QtWidgets.QFrame.Box)
+        self.bgimage.setText("")
+        self.bgimage.setPixmap(QtGui.QPixmap("pyqt5/resources/simplebg.jpg"))
+        self.bgimage.setScaledContents(True)
+        self.bgimage.setObjectName("bgimage")
+        self.toptitle = QtWidgets.QLabel(self.centralwidget)
+        self.toptitle.setGeometry(QtCore.QRect(100, 110, 600, 91))
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.toptitle.setFont(font)
+        self.toptitle.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.toptitle.setTextFormat(QtCore.Qt.AutoText)
+        self.toptitle.setScaledContents(False)
+        self.toptitle.setAlignment(QtCore.Qt.AlignCenter)
+        self.toptitle.setObjectName("toptitle")
+        self.twitterlogo = QtWidgets.QLabel(self.centralwidget)
+        self.twitterlogo.setGeometry(QtCore.QRect(310, -10, 180, 180))
+        self.twitterlogo.setText("")
+        self.twitterlogo.setPixmap(QtGui.QPixmap("pyqt5/resources/twitter_blue.png"))
+        self.twitterlogo.setScaledContents(True)
+        self.twitterlogo.setObjectName("twitterlogo")
+        self.twitterID = QtWidgets.QLabel(self.centralwidget)
+        self.twitterID.setGeometry(QtCore.QRect(150, 200, 170, 30))
+        font = QtGui.QFont()
+        font.setFamily("Dubai")
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.twitterID.setFont(font)
+        self.twitterID.setObjectName("twitterID")
+        
+        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit.setGeometry(QtCore.QRect(350, 200, 220, 30))
+        self.lineEdit.setText("")
+        self.lineEdit.setObjectName("lineEdit")
+        self.lineEdit.returnPressed.connect(self.on_click1)            # When pressed ENTER... connects to on_click func.
+
+        self.submit1 = QtWidgets.QPushButton(self.centralwidget)
+        self.submit1.setGeometry(QtCore.QRect(620, 203, 75, 24))
+        self.submit1.setObjectName("submit1")
+        self.submit1.clicked.connect(self.on_click1)
+        
+        self.tweet = QtWidgets.QLabel(self.centralwidget)
+        self.tweet.setGeometry(QtCore.QRect(150, 245, 400, 30))
+        font = QtGui.QFont()
+        font.setFamily("Dubai")
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.tweet.setFont(font)
+        self.tweet.setObjectName("tweet")
+        
+        self.textEdit = QtWidgets.QTextEdit(self.centralwidget)
+        self.textEdit.setGeometry(QtCore.QRect(150, 280, 551, 90))
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(9)
+        self.textEdit.setFont(font)
+        self.textEdit.setAutoFillBackground(False)
+        self.textEdit.setObjectName("textEdit")
+        
+        self.submit2 = QtWidgets.QPushButton(self.centralwidget)
+        self.submit2.setGeometry(QtCore.QRect(620, 380, 75, 23))
+        self.submit2.setObjectName("submit2")
+        self.submit2.clicked.connect(self.on_click2)
+
+        self.status = QtWidgets.QLabel(self.centralwidget)
+        self.status.setGeometry(QtCore.QRect(150, 405, 400, 30))
+        font = QtGui.QFont()
+        font.setFamily("Dubai")
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.status.setFont(font)
+        self.status.setObjectName("status")
+
+        self.statusText = QtWidgets.QTextEdit(self.centralwidget)
+        self.statusText.setGeometry(QtCore.QRect(150, 440, 551, 70))
+        font = QtGui.QFont()
+        font.setFamily("Ebrima")
+        font.setPointSize(9)
+        self.statusText.setFont(font)
+        self.statusText.setAutoFillBackground(False)
+        self.statusText.setReadOnly(True) ####only read
+        self.statusText.setObjectName("statusText")
+        
+        self.credits = QtWidgets.QLabel(self.centralwidget)
+        self.credits.setGeometry(QtCore.QRect(200, 510, 400, 50))
+        font = QtGui.QFont()
+        font.setPointSize(10)
+        self.credits.setFont(font)
+        self.credits.setAlignment(QtCore.Qt.AlignCenter)
+        self.credits.setObjectName("credits")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
+        self.menubar.setObjectName("menubar")
+        self.menuFile = QtWidgets.QMenu(self.menubar)
+        self.menuFile.setObjectName("menuFile")
+        self.menuAbout = QtWidgets.QMenu(self.menubar)
+        self.menuAbout.setObjectName("menuAbout")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+        self.actionMinimize = QtWidgets.QAction(MainWindow)
+        self.actionMinimize.setObjectName("actionMinimize")
+        self.actionExit = QtWidgets.QAction(MainWindow)
+        self.actionExit.setObjectName("actionExit")
+        self.actionAbout = QtWidgets.QAction(MainWindow)
+        self.actionAbout.setObjectName("actionAbout")
+        self.menuFile.addAction(self.actionMinimize)
+        self.menuFile.addAction(self.actionExit)
+        self.menuAbout.addAction(self.actionAbout)
+        self.menubar.addAction(self.menuFile.menuAction())
+        self.menubar.addAction(self.menuAbout.menuAction())
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "Career Analysis"))
+        self.toptitle.setText(_translate("MainWindow", "Career analysis using Machine Learning"))
+        self.twitterID.setText(_translate("MainWindow", "Twitter ID"))
+        self.lineEdit.setPlaceholderText(_translate("MainWindow", "For Example - narendramodi"))
+        self.submit1.setText(_translate("MainWindow", "Submit"))
+        self.tweet.setText(_translate("MainWindow", "Enter text below to analyze"))
+        self.textEdit.setPlaceholderText(_translate("MainWindow", "Enter text here..."))
+        self.submit2.setText(_translate("MainWindow", "Submit"))
+        self.status.setText(_translate("MainWindow", "Status"))
+        self.statusText.setPlaceholderText(_translate("MainWindow", "Click the submit button to get the analysis...."))
+        self.credits.setText(_translate("MainWindow", "Please send your feedback to: careerGuidance@gmail.com"))
+        self.menuFile.setTitle(_translate("MainWindow", "File"))
+        self.menuAbout.setTitle(_translate("MainWindow", "Help"))
+        self.actionMinimize.setText(_translate("MainWindow", "Minimize"))
+        self.actionExit.setText(_translate("MainWindow", "Exit"))
+        self.actionAbout.setText(_translate("MainWindow", "About"))
+
+    def on_click1(self):
+        twitterid = self.lineEdit.text()
+        if twitterid == '':
+            print("State Updated")
+            self.statusText.setText("Enter an ID")
+            msgBox = QMessageBox()
+            icon1 = QtGui.QIcon()
+            icon1.addPixmap(QtGui.QPixmap("pyqt5/resources/twitter_black_logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            msgBox.setWindowIcon(icon1)
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("Please enter an twitter ID \n    and try again")
+            msgBox.setWindowTitle("Invalid Twitter ID")
+            msgBox.setStandardButtons(QMessageBox.Ok)
+            returnValue = msgBox.exec()
+            while(returnValue == QMessageBox.Ok):
+                print('OK clicked')
+                break
+        else:
+            stateArr = getCareerbyId(twitterid)
+
+            if stateArr == 'Invalid':
+                self.statusText.setText("Invalid Twitter ID")
+                state = 'Invalid Twitter ID'
+                msgBox = QMessageBox()
+                icon1 = QtGui.QIcon()
+                icon1.addPixmap(QtGui.QPixmap("pyqt5/resources/twitter_black_logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+                msgBox.setWindowIcon(icon1)
+                msgBox.setIcon(QMessageBox.Information)
+                msgBox.setText("Please re-enter correct twitter ID \n and try again")
+                msgBox.setWindowTitle("Invalid Twitter ID")
+                msgBox.setStandardButtons(QMessageBox.Ok)
+                returnValue = msgBox.exec()
+                while(returnValue == QMessageBox.Ok):
+                    print('OK clicked')
+                    break
+
+            else:
+                print("State Updated")
+            self.statusText.setText(str(stateArr))
+
+    def on_click2(self):
+        textboxValue = self.textEdit.toPlainText()
+        if textboxValue == '':
+            print("State Updated")
+            self.statusText.setText("Enter a tweet")
+            msgBox = QMessageBox()
+            icon1 = QtGui.QIcon()
+            icon1.addPixmap(QtGui.QPixmap("pyqt5/resources/twitter_black_logo.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+            msgBox.setWindowIcon(icon1)
+            msgBox.setIcon(QMessageBox.Information)
+            msgBox.setText("Please enter a tweet \n    and try again")
+            msgBox.setWindowTitle("Invalid Tweet")
+            msgBox.setStandardButtons(QMessageBox.Ok)
+            returnValue = msgBox.exec()
+            while(returnValue == QMessageBox.Ok):
+                print('OK clicked')
+                break
+        else:
+            state = getCareerbyTweet(textboxValue)
+            print("State Updated")
+            self.statusText.setText(str(state))         
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
